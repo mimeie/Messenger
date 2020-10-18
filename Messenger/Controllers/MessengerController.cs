@@ -17,26 +17,25 @@ namespace Messenger.Controllers
     [Route("api/[controller]")]
     public class MessengerController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<MessengerController> _logger;
+       private readonly ILogger<MessengerController> _logger;
 
         public MessengerController(ILogger<MessengerController> logger)
         {
             _logger = logger;
         }
 
-        //http://localhost:32773/api/messenger/test?subject=hallo&text=testmessage
-        //http://messenger.prod.j1/api/messenger/test?subject=hallo&text=testmessage
-        [HttpGet("{id}", Name = "Get")]
-        public ResponseTrigger Get(string id, string subject, string text)
+        //http://localhost:32773/api/messenger/push?subject=hallo&text=testmessage
+        //http://messenger.prod.j1/api/messenger/push?subject=hallo&text=testmessage
+
+        //encoding via Aufruf JusiBase System.Web.HttpUtility.UrlEncode(message);
+        [HttpGet("{messageType}", Name = "Get")]
+        public ResponseTrigger Get(string messageType, string subject, string text)
         {
 
             try
             {
+                if (messageType == "push")
+                { 
                 Console.WriteLine("Push mit Betreff '{0}' soll gesendet werden.", subject);
 
                 var parameters = new NameValueCollection {
@@ -57,10 +56,19 @@ namespace Messenger.Controllers
                     ReturnCode = 1,
                     ReturnState = "gesendet"
                 };
+                }
+                else
+                { 
+                return new ResponseTrigger
+                {
+                    ReturnCode = 0,
+                    ReturnState = "unbekannt"
+                };
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Fehler bei pushover versan: " + ex);
+                Console.WriteLine("Fehler bei pushover Versand: " + ex);
 
                 return new ResponseTrigger
                 {
