@@ -24,23 +24,24 @@ namespace Messenger.Controllers
             _logger = logger;
         }
 
-        //http://localhost:32773/api/messenger/push?subject=hallo&text=testmessage
+        //http://localhost:32773/api/messenger/push?subject=hallo&text=testmessage&device=meiPhone
         //http://messenger.prod.j1/api/messenger/push?subject=hallo&text=testmessage
 
         //encoding via Aufruf JusiBase System.Web.HttpUtility.UrlEncode(message);
         [HttpGet("{messageType}", Name = "Get")]
-        public ResponseTrigger Get(string messageType, string subject, string text)
+        public ResponseTrigger Get(string messageType, string subject, string text, string device)
         {
 
             try
             {
                 if (messageType == "push")
                 { 
-                Console.WriteLine("Push mit Betreff '{0}' soll gesendet werden.", subject);
+                Console.WriteLine("Push mit Betreff '{0}' soll an {1} gesendet werden.", subject, device);
 
                 var parameters = new NameValueCollection {
     { "token", "aop9xnr3udsnk9j1ah797wzrictmcc" },
     { "user", "uc2bjy2kt32htszmo6ess5emdxrk82" },
+    { "device", device },
     { "message", text },
     { "title", subject }
 };
