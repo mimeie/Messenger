@@ -25,7 +25,7 @@ namespace Messenger.Controllers
         }
 
         //http://localhost:32773/api/messenger/push?subject=hallo&text=testmessage&device=meiPhone
-        //http://messenger.prod.j1/api/messenger/push?subject=hallo&text=testmessage
+        //http://messenger.prod.j1/api/messenger/push?subject=hallo&text=testmessage&device=meiPhone
 
         //encoding via Aufruf JusiBase System.Web.HttpUtility.UrlEncode(message);
         [HttpGet("{messageType}", Name = "Get")]
